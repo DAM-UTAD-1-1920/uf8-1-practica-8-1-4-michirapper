@@ -5,7 +5,7 @@
 	import="java.util.*, java.sql.*, miguelangelgarre.com.jsptags.Empleado"%>
 <%
 	ArrayList<Empleado> datos = new ArrayList<>();
-	Class.forName("com.mysql.cj.jdbc.Driver");
+Class.forName("com.mysql.cj.jdbc.Driver");
 try {
 	Connection miConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto_jsp", "root", "");
 	Statement miStatement = miConnection.createStatement();
@@ -27,31 +27,39 @@ pageContext.setAttribute("losEmpleados", datos);
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <style type="text/css">
-.cabecera{
-font-weight: bold;
+.cabecera {
+	font-weight: bold;
 }
 </style>
 </head>
 <body>
-<table border="1">
-<tr class="cabecera">
-<td>Nombre</td><td>Apellido</td><td>Puesto</td><td>Salario</td>
-</tr>
-	<c:forEach var="EmpTemp" items="${losEmpleados}">
-<tr>
-	<td>${EmpTemp.nombre}</td><td>${EmpTemp.apellido}</td><td>${EmpTemp.puesto}</td><td>
-	<c:if test="${EmpTemp.salario<40000}">	
-	${EmpTemp.salario + 5000}
-	</c:if>
-	<c:if test="${EmpTemp.salario>=40000}">	
-	${EmpTemp.salario}
-	</c:if>
-	
-	</td>
-	
-</tr>
-	</c:forEach>
+	<table border="1">
+		<tr class="cabecera">
+			<td>Nombre</td>
+			<td>Apellido</td>
+			<td>Puesto</td>
+			<td>Salario</td>
+		</tr>
+		<c:forEach var="EmpTemp" items="${losEmpleados}">
+			<tr>
+				<td>${EmpTemp.nombre}</td>
+				<td>${EmpTemp.apellido}</td>
+				<td>${EmpTemp.puesto}</td>
+				<td><c:choose>
+						<c:when test="${EmpTemp.salario<40000}">
+				${EmpTemp.salario + 5000}
+				</c:when>
+						<c:when test="${EmpTemp.salario>40000 && EmpTemp.salario<=50000}">
+				${EmpTemp.salario + 2000}
+				</c:when>
+						<c:otherwise>
+				${EmpTemp.salario}
+				</c:otherwise>
+					</c:choose></td>
 
-</table>
+			</tr>
+		</c:forEach>
+
+	</table>
 </body>
 </html>
